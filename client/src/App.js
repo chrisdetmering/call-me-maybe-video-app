@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import Video from './components/Video/Video';
 import {
   connect,
   createLocalTracks,
@@ -6,12 +8,21 @@ import {
 } from 'twilio-video';
 import './App.css';
 
-const Token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzgyOGY2M2EwNTE0YzY3ZDk5OGExM2Y5MzdhYzlmZjg4LTE1ODgxMTMyOTgiLCJpc3MiOiJTSzgyOGY2M2EwNTE0YzY3ZDk5OGExM2Y5MzdhYzlmZjg4Iiwic3ViIjoiQUNmMDQwMzgxOGJlMmI0YTg4NjgzODhmNzQxOWEzYzNkNCIsImV4cCI6MTU4ODExNjg5OCwiZ3JhbnRzIjp7ImlkZW50aXR5IjoiQ2hyaXMgRGV0bWVyaW5nIiwidmlkZW8iOnsicm9vbSI6InRlc3Q0In19fQ.LdAjwib6KoANLMHfjiUesxxzCWQC0cjBI6W84ycv34s'
+// const Token = ''
 
 class App extends React.Component {
   state = {
-    room: null
+    room: null,
+    token: null
   }
+
+
+  componentDidMount () { 
+    axios.get('/api/token').then(res => { 
+      this.setState({ token: res.data.token})
+    })
+  }
+
 
   connectRoom = (token) => {
     connect(token, { name: 'my-new-room' }).then(room => {
@@ -64,14 +75,15 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <button onClick={() => this.connectRoom(Token)}>Make Room</button>
-        <button onClick={() => this.connectMedia(Token)}>Add Media</button>
+        <button onClick={() => this.connectRoom(this.state.token)}>Make Room</button>
+        <button onClick={() => this.connectMedia(this.state.token)}>Add Media</button>
         <button onClick={() => this.addVideo()}>Show Video</button>
 
         <button onClick={() => this.checkPerticipant()}>Check Perticipants</button>
         <button onClick={() => this.preview()}>Preview</button>
 
-        <div id="local-media"></div>
+        <Video />
+
 
       </div>
     );
@@ -79,10 +91,6 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
-
 
 
 
