@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import classes from './Video.module.css';
 import Aux from '../../hoc/Aux/Aux';
 import {connect } from 'twilio-video';
@@ -9,8 +9,8 @@ class VideoComponent extends React.Component {
     super(props)
     this.state = {
       identity: null,
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzgyOGY2M2EwNTE0YzY3ZDk5OGExM2Y5MzdhYzlmZjg4LTE1ODgyNzkzMjMiLCJpc3MiOiJTSzgyOGY2M2EwNTE0YzY3ZDk5OGExM2Y5MzdhYzlmZjg4Iiwic3ViIjoiQUNmMDQwMzgxOGJlMmI0YTg4NjgzODhmNzQxOWEzYzNkNCIsImV4cCI6MTU4ODI4MjkyMywiZ3JhbnRzIjp7ImlkZW50aXR5IjoiQ2hyaXMgRGV0bWVyaW5nIiwidmlkZW8iOnsicm9vbSI6InRlc3QifX19.LPSxYWLMLE2IItReGynl8YnSmR13KFZ7fXxIhHVJ9W0',
-      roomName: 'Test',   
+      token: null,
+      roomName: '',   
       roomNameErr: false,
       localMediaAvailable: true, 
       hasJoinedRoom: false
@@ -21,13 +21,13 @@ class VideoComponent extends React.Component {
   
   
   componentDidMount() {
-    // axios.get('/token').then(results => {
-    //   const { identity, token } = results.data;
-    //   this.setState({ identity, token });
+    axios.get('/token').then(results => {
+      const { identity, token } = results.data;
+      this.setState({ identity, token });
 
-    // }).catch(error => { 
-    //   console.log(error)
-    // });
+    }).catch(error => { 
+      console.log(error)
+    });
   }
 
 
@@ -61,11 +61,9 @@ class VideoComponent extends React.Component {
 
   }
 
-
   leaveRoom = () => {
     
   }
-
 
   handleRoomNameChange = (event) => { 
     let roomName = event.target.value;
