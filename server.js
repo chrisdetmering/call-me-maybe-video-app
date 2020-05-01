@@ -1,10 +1,14 @@
 var AccessToken = require('twilio').jwt.AccessToken;
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 var faker = require('faker');
 
 const app = express();
 const port = process.env.PORT || 5000;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 var AccessToken = require('twilio').jwt.AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
